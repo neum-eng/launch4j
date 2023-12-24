@@ -132,5 +132,6 @@ void getVersionFromOutput(HANDLE outputRd, char *version, int versionLen, BOOL *
 BOOL CreateChildProcess(char *cmdline, HANDLE outputWr);
 BOOL isJavaVersionGood(const char* version, BOOL is64Bit);
 BOOL isPathJavaVersionGood(const char *path, BOOL *is64Bit);
+BOOL isJfxModulePresent();
 
 #endif // _LAUNCH4J_HEAD__INCLUDED_

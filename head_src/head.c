@@ -521,6 +521,10 @@ BOOL isRegistryJavaHomeValid(const char* keyName, const int searchType)
 	{
 		search.corruptedJreFound = TRUE;
 	}
+	if (valid && search.requiresJfx)
+	{
+		valid = isJfxModulePresent(path);
+	}
 
 	return valid;
 }
@@ -976,6 +980,10 @@ void createJreSearchError()
 		{
 			strcat(error.msg, " (64-bit)");
 		}			
+		if (search.requiresJfx)
+		{
+			strcat(error.msg, " w/ JavaFX");
+		}
 		
 		if (search.corruptedJreFound)
 		{
@@ -1326,6 +1334,28 @@ const char* getLauncherArgs()
     return launcher.args;    
 }
 
+BOOL checkModulesFromOutput(HANDLE outputRd)
+{
+	CHAR chBuf[MAX_VAR_SIZE] = {0}, *bptr = chBuf;
+	DWORD dwRead, remain = sizeof(chBuf);
+	BOOL bSuccess = FALSE;
+
+	while (remain > 0) {
+		bSuccess = ReadFile(outputRd, bptr, remain, &dwRead, NULL);
+		if (! bSuccess || dwRead == 0) break;
+		bptr += dwRead;
+		remain -= dwRead;
+	}
+	debugAll("List modules output: \n%s\n",chBuf);
+	if(strstr(chBuf,"javafx.controls") && strstr(chBuf,"javafx.fxml"))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+
+}
+
 /* read java version output and save version string in version */
 void getVersionFromOutput(HANDLE outputRd, char *version, int versionLen, BOOL *is64Bit)
 {
@@ -1403,10 +1433,56 @@ BOOL isJavaVersionGood(const char *version, BOOL is64Bit)
 		&& (!*search.javaMaxVer || strcmp(version, search.javaMaxVer) <= 0)
 		&& (!search.requires64Bit || is64Bit)
 		&& (!jniHeader || !is64Bit);
+		
 	debug("Version string: %s / %s-Bit (%s)\n", version, is64Bit ? "64" : "32", result ? "OK" : "Ignore");
 	return result;
 }
 
+BOOL isJfxModulePresent(const char *path)
+{
+	SECURITY_ATTRIBUTES saAttr;
+	HANDLE outputRd = NULL;
+	HANDLE outputWr = NULL;
+	BOOL bPresent = FALSE;
+
+	debugAll("Check JavaFX modules present\n");
+
+	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+	saAttr.bInheritHandle = TRUE;
+	saAttr.lpSecurityDescriptor = NULL;
+
+	// Create a pipe for the child process's STDOUT.
+	if (!CreatePipe(&outputRd, &outputWr, &saAttr, 0))
+	{
+		debug("Cannot create pipe\n");
+		return FALSE;
+	}
+	// Ensure the read handle to the pipe for STDOUT is not inherited.
+	if (!SetHandleInformation(outputRd, HANDLE_FLAG_INHERIT, 0))
+	{
+		debug("Cannot set handle information\n");
+		CloseHandle(outputRd);
+		CloseHandle(outputWr);
+		return FALSE;
+	}
+	// create child process
+	char cmdline[MAX_ARGS] = {0};
+	char launcherPath[_MAX_PATH] = {0};
+	strcpy(launcherPath, path);
+	appendLauncher(launcherPath);
+	snprintf(cmdline, MAX_ARGS, "\"%s\" --list-modules", launcherPath);
+	if (!CreateChildProcess(cmdline, outputWr))
+	{
+		debug("Cannot run java(w) --list-modules\n");
+		CloseHandle(outputRd);
+		return FALSE;
+	}
+	bPresent = checkModulesFromOutput(outputRd);
+	CloseHandle(outputRd);
+	debug("Check jfx modules:\t%s\n", bPresent ? "(OK)" : "(not found)");
+	
+	return bPresent;
+}
 /*
  * Run <path>/bin/java(w) -version. Return TRUE if version is good.
  */
@@ -1455,7 +1531,15 @@ BOOL isPathJavaVersionGood(const char *path, BOOL *is64Bit)
 	if (*version != '\0')
 	{
 		formatJavaVersion(formattedVersion, version);
-		return isJavaVersionGood(formattedVersion, *is64Bit);
+		if(isJavaVersionGood(formattedVersion, *is64Bit))
+		{
+			if(search.requiresJfx)
+			{
+				return isJfxModulePresent(path);
+			}
+
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
