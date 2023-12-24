@@ -131,6 +131,6 @@ const char* getLauncherArgs();
 void getVersionFromOutput(HANDLE outputRd, char *version, int versionLen, BOOL *is64Bit);
 BOOL CreateChildProcess(char *cmdline, HANDLE outputWr);
 BOOL isJavaVersionGood(const char* version, BOOL is64Bit);
-BOOL isJavaPathVersionGood(const char *path, BOOL *is64Bit);
+BOOL isPathJavaVersionGood(const char *path, BOOL *is64Bit);
 
 #endif // _LAUNCH4J_HEAD__INCLUDED_
