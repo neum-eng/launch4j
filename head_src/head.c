@@ -56,6 +56,7 @@ struct
 	BOOL requiresJdk;
 	BOOL requires64Bit;
 	BOOL corruptedJreFound;
+	BOOL requiresJfx;
 	char originalJavaMinVer[STR];
 	char originalJavaMaxVer[STR];
 	char javaMinVer[STR];
@@ -86,6 +87,7 @@ BOOL initGlobals(BOOL jni)
 	search.foundJava = JAVA_NOT_FOUND;
 	search.requiresJdk = FALSE;
 	search.requires64Bit = FALSE;
+	search.requiresJfx = FALSE;
 	search.corruptedJreFound = FALSE;
 	
 	return TRUE;
@@ -1003,6 +1005,8 @@ BOOL jreSearch(const char *exePath, const int pathLen)
 	debug("Requires JDK:\t%s\n", search.requiresJdk ? "Yes" : "No");
 	search.requires64Bit = loadBool(REQUIRES_64_BIT);
 	debug("Requires 64-Bit: %s\n", search.requires64Bit ? "Yes" : "No");
+	search.requiresJfx = loadBool(REQUIRES_JFX);
+	debug("Requires JavaFX: %s\n", search.requiresJfx ? "Yes" : "No");
 	loadString(JAVA_MIN_VER, search.originalJavaMinVer);
 	formatJavaVersion(search.javaMinVer, search.originalJavaMinVer);
 	debug("Java min ver:\t%s\n", search.javaMinVer);
