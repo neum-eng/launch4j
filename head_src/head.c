@@ -1329,7 +1329,7 @@ const char* getLauncherArgs()
 /* read java version output and save version string in version */
 void getVersionFromOutput(HANDLE outputRd, char *version, int versionLen, BOOL *is64Bit)
 {
-	CHAR chBuf[BIG_STR] = {0}, *bptr = chBuf;
+	CHAR chBuf[BIG_STR] = {0}, *bptr = chBuf, *verLinePtr;
 	DWORD dwRead, remain = sizeof(chBuf);
 	BOOL bSuccess = FALSE;
 
@@ -1340,8 +1340,13 @@ void getVersionFromOutput(HANDLE outputRd, char *version, int versionLen, BOOL *
 		remain -= dwRead;
 	}
 	debugAll("Java version output: %s\n", chBuf);
+	verLinePtr = strstr(chBuf, "version");
+	if (verLinePtr == NULL)
+	{
+		verLinePtr = chBuf;
+	}
 	*version = '\0';
-	const char *verStartPtr = strchr(chBuf, '"');
+	const char *verStartPtr = strchr(verLinePtr, '"');
 	if (verStartPtr == NULL)
 	{
 		debug("Cannot get version string: cannot find quote\n");
