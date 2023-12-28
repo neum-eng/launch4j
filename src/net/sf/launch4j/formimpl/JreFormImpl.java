@@ -57,6 +57,7 @@ public class JreFormImpl extends JreForm {
 		bindings.add("jre.path", _jrePathField, Jre.DEFAULT_PATH)
 				.add("jre.requiresJdk", _requiresJdkCheck)
 				.add("jre.requires64Bit", _requires64BitCheck)
+				.add("jre.requiresJfx", _requiresJfxCheck)
 				.add("jre.minVersion", _jreMinField)
 				.add("jre.maxVersion", _jreMaxField)
 				.add("jre.initialHeapSize", _initialHeapSizeField)

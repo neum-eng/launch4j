@@ -41,6 +41,7 @@ public abstract class JreForm extends JPanel
    protected final JTextField _jrePathField = new JTextField();
    protected final JCheckBox _requires64BitCheck = new JCheckBox();
    protected final JCheckBox _requiresJdkCheck = new JCheckBox();
+   protected final JCheckBox _requiresJfxCheck = new JCheckBox();
 
    /**
     * Default constructor
@@ -204,12 +205,17 @@ public abstract class JreForm extends JPanel
       _requires64BitCheck.setName("requires64BitCheck");
       _requires64BitCheck.setText(Messages.getString("requires64Bit"));
       _requires64BitCheck.setToolTipText(Messages.getString("requires64BitTip"));
-      jpanel1.add(_requires64BitCheck,cc.xywh(8,8,3,1));
+      jpanel1.add(_requires64BitCheck,cc.xywh(8,8,2,1));
 
       _requiresJdkCheck.setActionCommand(Messages.getString("requiresJdk"));
       _requiresJdkCheck.setName("requiresJdkCheck");
       _requiresJdkCheck.setText(Messages.getString("requiresJdk"));
-      jpanel1.add(_requiresJdkCheck,cc.xywh(8,6,3,1));
+      jpanel1.add(_requiresJdkCheck,cc.xywh(8,6,2,1));
+
+      _requiresJfxCheck.setActionCommand(Messages.getString("requiresJfx"));
+      _requiresJfxCheck.setName("requiresJfxCheck");
+      _requiresJfxCheck.setText(Messages.getString("requiresJfx"));
+      jpanel1.add(_requiresJfxCheck,cc.xywh(9,6,2,1));
 
       addFillComponents(jpanel1,new int[]{ 1,2,3,4,5,6,7,8,9,10,11 },new int[]{ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 });
       return jpanel1;

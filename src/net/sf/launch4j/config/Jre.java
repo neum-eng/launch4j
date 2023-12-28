@@ -52,6 +52,7 @@ public class Jre implements IValidatable {
 	private String path;
 	private boolean requiresJdk;
 	private boolean requires64Bit;
+	private boolean requiresJfx;
 	private String minVersion;
 	private String maxVersion;
 	private Integer initialHeapSize;
@@ -151,6 +152,14 @@ public class Jre implements IValidatable {
 
 	public void setRequires64Bit(boolean requires64Bit) {
 		this.requires64Bit= requires64Bit;
+	}
+
+	public boolean getRequiresJfx() {
+		return requiresJfx;
+	}
+
+	public void setRequiresJfx(boolean requiresJfx) {
+		this.requiresJfx = requiresJfx;
 	}
 
 	/** Initial heap size in MB */

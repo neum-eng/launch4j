@@ -101,6 +101,7 @@ public class RcBuilder {
 	public static final int MAX_HEAP_PERCENT = 28;
 	public static final int REQUIRES_64_BIT = 29;
 	public static final int RESTART_ON_CRASH = 31;
+	public static final int REQUIRES_JFX = 32;
 
 	public static final int STARTUP_ERR = 101;
 	public static final int JRE_NOT_FOUND_ERR = 102;
@@ -252,6 +253,7 @@ public class RcBuilder {
 		addWindowsPath(JRE_PATH, jre.getPath());
 		addTrue(REQUIRES_JDK, jre.getRequiresJdk());
 		addTrue(REQUIRES_64_BIT, jre.getRequires64Bit());
+		addTrue(REQUIRES_JFX, jre.getRequiresJfx());
 		addText(JAVA_MIN_VER, jre.getMinVersion());
 		addText(JAVA_MAX_VER, jre.getMaxVersion());
 
