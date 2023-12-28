@@ -2,12 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sf.launch4j</groupId>
+	<groupId>com.neumeier1</groupId>
 	<artifactId>launch4j</artifactId>
 	<version>${launch4j.version}</version>
 	<name>Launch4j</name>
 	<description>Cross-platform Java executable wrapper for creating lightweight Windows native EXEs. Provides advanced JRE search, application startup configuration and better user experience.</description>
-	<url>http://sourceforge.net/projects/launch4j/</url>
+	<url>https://github.com/neum-eng/launch4j</url>
 
 	<licenses>
 		<license>
@@ -27,19 +27,22 @@
 			<name>Grzegorz Kowal</name>
 			<url>http://sourceforge.net/u/grzegok/profile/</url>
 		</developer>
+		<developer>
+			<name>Ryan Humphreys</name>
+		</developer>
 	</developers>
 
 	<scm>
-		<connection>scm:git:http://git.code.sf.net/p/launch4j/git</connection>
-		<developerConnection>scm:git:http://git.code.sf.net/p/launch4j/git</developerConnection>
-		<url>http://sourceforge.net/p/launch4j/git/ci/master/tree/</url>
+		<connection>scm:git:https://github.com/neum-eng/launch4j.git</connection>
+		<developerConnection>scm:git:https://github.com/neum-eng/launch4j.git</developerConnection>
+		<url>https://github.com/neum-eng/launch4j/tree/master</url>
 	</scm>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/neum-eng/launch4j</url>
+		</repository>
 	</distributionManagement>
 
 	<properties>
@@ -329,31 +332,6 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.2</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<!-- Release has to be executed manually -->
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
-						</configuration>
 					</plugin>
 
 				</plugins>
