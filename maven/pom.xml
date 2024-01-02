@@ -45,6 +45,14 @@
 		</repository>
 	</distributionManagement>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>github</id>
+		    <name>Neumeier package repository</name>
+		    <url>https://maven.pkg.github.com/neum-eng/*</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<versionNumber>${launch4j.version}.0.0</versionNumber>
@@ -355,9 +363,9 @@
 				<plugins>
 					<!-- Creates Launch4j executable -->
 					<plugin>
-						<groupId>com.akathist.maven.plugins.launch4j</groupId>
+						<groupId>com.neumeier1</groupId>
 						<artifactId>launch4j-maven-plugin</artifactId>
-						<version>1.7.25</version>
+						<version>2.4.1</version>
 						<executions>
 							<execution>
 								<id>launch4j</id>
