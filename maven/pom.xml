@@ -383,6 +383,7 @@
 									<stayAlive>false</stayAlive>
 
 									<jre>
+										<path>jre</path>
 										<minVersion>1.8.0</minVersion>
 									</jre>
 									<versionInfo>
