@@ -41,6 +41,7 @@
 	<distributionManagement>
 		<repository>
 			<id>github</id>
+			<name>GitHub Packages</name>
 			<url>https://maven.pkg.github.com/neum-eng/launch4j</url>
 		</repository>
 	</distributionManagement>
