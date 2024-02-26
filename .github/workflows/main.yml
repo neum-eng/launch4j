@@ -9,7 +9,7 @@ jobs:
   compiler_version:
     uses: neum-eng/.github-private/.github/workflows/java-version.yml@master
     with: 
-      pom-path: maven
+      mvn-args: "-f maven -o"
 
   deploy:
     needs: compiler_version
